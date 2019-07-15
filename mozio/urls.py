@@ -21,11 +21,15 @@ from api.views import *
 
 router = HybridRouter()
 router.register(r'polygons', GetPolygons, r"polygons")
+router.register(r'mypolygons', GetAllPolygons, r"mypolygons")
 router.add_api_view(r'auth', url(r'^auth/$', ObtainAuthToken.as_view(), name=r"auth"))
 
 urlpatterns = [
     url('^admin/', admin.site.urls),
     url(r'^api/', include(router.urls, namespace='api')),
     url(r'^createprovider', CreateProvider.as_view(),name='createprovider'),
+    url(r'^createpolygon', CreatePolygon.as_view(),name='createpolygon'),
+    url(r'^updatepolygon', UpdatePolygon.as_view(),name='updatepolygon'),
+    url(r'^deletepolygon', DeletePolygon.as_view(),name='deletepolygon'),
     url(r'^$', index_view, {}, name='index'),
 ]

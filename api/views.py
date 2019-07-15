@@ -38,6 +38,81 @@ class GetPolygons(MongoModelViewSet):
         geolocation = {"type": "Point", "coordinates": [coordinates['lng'], coordinates['lat']]}
         return Polygon.objects(polygon__geo_intersects=geolocation)
 
+class GetAllPolygons(MongoModelViewSet):
+
+    lookup_field = 'id'
+    serializer_class = PolygonSerializer
+    
+    def get_queryset(self):
+        token = self.request.query_params.get('token')
+        if Provider.objects(token=token):
+            p = Provider.objects(token=token)[0]
+            return Polygon.objects.all()
+        else:
+            return []
+
+
+
+class CreatePolygon(APIView):
+     def post(self, request, *args, **kwargs):
+        data = json.loads(request.data.get('_content',''))
+        token = data.get('token',"")
+        coordinates = data.get('coordinates',[])
+        name = data.get("name","")
+        if Provider.objects(token=token) and coordinates and name:
+            geo = {"type": "Polygon", "coordinates": coordinates}
+            provider = Provider.objects(token=token)[0]
+            pol = Polygon(name=name,provider=provider,polygon=geo)
+            try:
+                pol.save()
+                return Response({"message":"succesfully created polygon"})
+            except Exception as e:
+                return Response({"message":e})
+        else:
+            return Response({"msg":"No provider with that token or data is incomplete"})
+     def get(self, request,*args,**kwargs):
+        return Response({"message":"Enter the name, token of the provider and the coordinates list of the polygon"})
+
+
+
+class UpdatePolygon(APIView):
+    def post(self, request, *args, **kwargs):
+        data = json.loads(request.data.get('_content',''))
+        token = data.get('token',"")
+        coordinates = data.get('coordinates',[])
+        name = data.get("name","")
+        if Provider.objects(token=token) and coordinates and name:
+            geo = {"type": "Polygon", "coordinates": coordinates}
+            provider = Provider.objects(token=token)[0]
+            pol = Polygon.objects(name=name)[0]
+            pol.polygon = geo
+            try:
+                pol.save()
+                return Response({"message":"succesfully updated polygon"})
+            except Exception as e:
+                return Response({"message":e})
+        else:
+            return Response({"msg":"No provider with that token or data is incomplete"})
+    def get(self, request,*args,**kwargs):
+        return Response({"message":"Enter the name of the polygon to update, token of the provider and the coordinates list of the updated polygon"})
+
+class DeletePolygon(APIView):
+    def post(self, request, *args, **kwargs):
+        data = json.loads(request.data.get('_content',''))
+        token = data.get('token',"")
+        name = data.get("name","")
+        if Provider.objects(token=token) and name:
+            try:
+                pol = Polygon.objects(name=name)[0]
+                pol.delete()
+                return Response({"message":"succesfully deleted polygon"})
+            except Exception as e:
+                return Response({"message":e})
+        else:
+            return Response({"message":"Wrong Token"})
+    def get(self, request,*args,**kwargs):
+        return Response({"message":"Enter the name of polygon to delete and provider's key"})
+
 
 class CreateProvider(APIView):
     def post(self, request, *args, **kwargs):
@@ -52,7 +127,7 @@ class CreateProvider(APIView):
         p.save()
         return Response({"token":p.token})
     def get(self, request,*args,**kwargs):
-        return Response({"success":1})
+        return Response({"message":"Please post name, email, phone_number,currency,language of the provider in POST content"})
 
 class ObtainAuthToken(APIView):
     throttle_classes = ()

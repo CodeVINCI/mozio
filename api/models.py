@@ -27,7 +27,7 @@ class Provider(Document):
     currency = StringField(max_length=50)
 
 class Polygon(Document):
-    name = StringField(max_length=200, required=True)
+    name = StringField(max_length=200, unique=True ,required=True)
     polygon =  PolygonField()
     provider = ReferenceField(Provider)
 

@@ -1,7 +1,7 @@
 # mozio api
 
 ## *Create Providers, create their areas of service as polygons, update polygons, delete polygons, query the polygons that serve the customer at paerticular longitude and lattitude*
-
+## Hosted on AWS EC2 public ip: 18.188.6.18
 ## Create Provider
 
 ``` 

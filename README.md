@@ -1,13 +1,13 @@
 # mozio api
 
-## *Create Providers, create their areas of service as polygons, update polygons, delete polygons, query the polygons that serve the customer at paerticular longitude and lattitude*
+## *Create Providers, create their areas of service as polygons, update polygons, delete polygons, query the polygons that serve the customer at particular longitude and lattitude*
 ## Hosted on AWS EC2 public ip: 18.188.6.18
 ## Create Provider
 
 ``` 
-*http://18.188.6.18/createprovider/ 
+http://18.188.6.18/createprovider/ 
 ```
-*create a json in the content and post the data to create a new provider.
+goto link above and create a json in the content and post the data to create a new provider.
 
 *Example json:
 ``` 
@@ -25,9 +25,9 @@
 
 ## Create Polygon of a Provider
 ``` 
-*http://18.188.6.18/createpolygon/ 
+http://18.188.6.18/createpolygon/ 
 ```
-*create a json in the content and post the data to create a new polygon.
+goto link above and create a json in the content and post the data to create a new polygon.
 
 *Example json
 ```
@@ -42,17 +42,17 @@
 ## Get all the polygons of a Provider
 
 ``` 
-*http://18.188.6.18/api/mypolygons/?token=OUGMfgMngPtBDVprr3ZK3L5MfcNnmo7n 
+http://18.188.6.18/api/mypolygons/?token=OUGMfgMngPtBDVprr3ZK3L5MfcNnmo7n 
 ```
-*token of the provider as a query in the url will get you all the polygons served by the provider
+token of the provider as a query in the url will get you all the polygons served by the provider
 
 
 ## Update Polygon
 
 ``` 
-*http://18.188.6.18/updatepolygon/ 
+http://18.188.6.18/updatepolygon/ 
 ```
-*create a json in the content and post the data to update a polygon.
+got link above create a json in the content and post the data to update a polygon.
 
 *Example json
 ```
